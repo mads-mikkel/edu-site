@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page 4 | MARA's Website</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body data-page="page4">
+    <div class="site-shell">
+        <header class="site-header">
+            <a class="home-link" href="../index.html" aria-label="Go to homepage">&#8962;</a>
+            <h1 class="site-title">MARA's Website</h1>
+            <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle dark or light mode">
+                <span id="themeIcon" aria-hidden="true">&#9790;</span>
+                <span id="themeLabel">Dark</span>
+            </button>
+        </header>
+
+        <div class="content-grid">
+            <aside id="sidebar" class="sidebar" aria-label="Sidebar navigation">
+                <nav class="nav-menu">
+                    <a class="nav-link" href="../index.html" data-page="home">Home</a>
+                    <a class="nav-link" href="page1.html" data-page="page1">Page 1</a>
+                    <a class="nav-link" href="page2.html" data-page="page2">Page 2</a>
+                    <a class="nav-link" href="page3.html" data-page="page3">Page 3</a>
+
+                    <div class="nav-group">
+                        <button id="moreToggle" class="nav-parent" type="button" aria-expanded="false">
+                            More Pages
+                            <span class="chevron" aria-hidden="true">+</span>
+                        </button>
+                        <div id="subNav" class="sub-nav" hidden>
+                            <a class="nav-link sub-link" href="page4.html" data-page="page4">Page 4</a>
+                            <a class="nav-link sub-link" href="page5.html" data-page="page5">Page 5</a>
+                            <a class="nav-link sub-link" href="page6.html" data-page="page6">Page 6</a>
+                        </div>
+                    </div>
+                </nav>
+            </aside>
+
+            <main class="main-panel">
+                <button id="sidebarToggle" class="sidebar-toggle" type="button" aria-label="Collapse sidebar">&lt;</button>
+                <section class="content-card">
+                    <h2>Page 4</h2>
+                    <p>This is placeholder content for Page 4.</p>
+                    <p>
+                        This page is one of the nested links under the expandable menu.
+                    </p>
+                </section>
+            </main>
+        </div>
+
+        <footer class="site-footer">
+            <p>Created by: KESO</p>
+        </footer>
+    </div>
+
+    <script src="../script.js"></script>
+</body>
+</html>
