@@ -350,3 +350,81 @@ body[data-theme='dark'] .content-card pre {
 		transform: translateY(0);
 	}
 }
+
+/* Floating Table of Contents */
+.floating-toc {
+	position: fixed;
+	/* 'right' is set dynamically by JS to align with .site-shell */
+	top: 120px;
+	width: 220px;
+	max-height: calc(100vh - 160px);
+	background: var(--surface);
+	color: var(--text);
+	border-radius: 10px;
+	box-shadow: var(--shadow);
+	padding: 8px;
+	z-index: 60;
+	display: flex;
+	flex-direction: column;
+	transition: opacity .18s ease;
+}
+
+.floating-toc[hidden] { display: none; }
+
+.floating-toc .toc-toggle {
+	background: var(--surface);
+	border: 1px solid var(--line);
+	border-radius: 8px;
+	padding: 6px 10px;
+	font-weight: 600;
+	cursor: pointer;
+	margin-bottom: 8px;
+	align-self: flex-start;
+	color: var(--text);
+	font-family: inherit;
+	font-size: 0.9rem;
+}
+
+.floating-toc .toc-inner {
+	overflow: auto;
+	padding-right: 6px;
+}
+
+/* When collapsed, hide the inner list but keep the toggle visible */
+.floating-toc.collapsed .toc-inner {
+	display: none;
+}
+
+.toc-list ul { list-style: none; margin: 0; padding: 0; }
+.toc-list li { margin: 2px 0; }
+.toc-list a {
+	display: block;
+	text-decoration: none;
+	color: var(--muted);
+	padding: 4px 6px;
+	border-radius: 6px;
+	font-size: 0.92rem;
+}
+.toc-list a:hover,
+.toc-list a:focus { background: rgba(0,0,0,0.04); color: var(--text); outline: none; }
+
+.toc-list .toc-h2 { font-weight: 600; color: var(--text); }
+.toc-list .toc-h3 { padding-left: 12px; font-size: 0.92rem; }
+
+.toc-list a.active {
+	background: linear-gradient(90deg, rgba(31,122,90,0.12), rgba(20,82,60,0.06));
+	color: var(--accent);
+	box-shadow: inset 0 0 0 1px rgba(31,122,90,0.04);
+}
+
+/* Hide on small screens */
+@media (max-width: 1000px) {
+	.floating-toc { display: none; }
+}
+
+/* Ensure contrast in dark mode */
+body[data-theme='dark'] .floating-toc {
+	background: var(--surface-2);
+	color: var(--text);
+	border: 1px solid rgba(255,255,255,0.03);
+}
