@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page 2 | HÅNDBOGEN I SOFTWAREKONSTRUKTION</title>
+    <link rel="stylesheet" href="../styles.css">
+    <script>
+        (function() {
+            var t = localStorage.getItem('mara-theme') ||
+                    (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', t);
+        })();
+    </script>
+    <link id="hljsTheme" rel="stylesheet" href="../vendor/highlightjs/github.min.css">
+</head>
+<body data-page="oop">
+    <div class="site-shell">
+        <header class="site-header">
+            <a class="home-link" href="../index.html" aria-label="Go to homepage">&#8962;</a>
+            <h1 class="site-title">HÅNDBOGEN I SOFTWAREKONSTRUKTION</h1>
+            <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle dark or light mode">
+                <span id="themeIcon" aria-hidden="true">&#9790;</span>
+                <span id="themeLabel">Dark</span>
+            </button>
+        </header>
+
+        <div class="content-grid">
+            <aside id="sidebar" class="sidebar" aria-label="Sidebar navigation">
+            </aside>
+
+            <main class="main-panel">
+                <button id="sidebarToggle" class="sidebar-toggle" type="button" aria-label="Collapse sidebar">&lt;</button>
+                <div class="main-panel-inner">
+                    <section class="content-card">
+                        <h2 class="site-h2">Page 2</h2>
+                        <p>This is placeholder content for Page 2.</p>
+                        <p>You can replace this section with any custom layout and content.</p>
+                    </section>
+
+                    <nav id="floatingToc" class="floating-toc" aria-label="Page table of contents" hidden>
+                        <button id="tocToggle" class="toc-toggle" aria-expanded="true" aria-controls="tocList">Contents</button>
+                        <div id="tocInner" class="toc-inner">
+                            <div id="tocList" class="toc-list" role="navigation"></div>
+                        </div>
+                    </nav>
+                </div>
+            </main>
+        </div>
+
+        <footer class="site-footer">
+            <p>Created by: KESO</p>
+        </footer>
+    </div>
+
+    <script src="../vendor/highlightjs/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <script src="../script.js"></script>
+</body>
+</html>

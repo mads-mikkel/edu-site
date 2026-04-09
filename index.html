@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HÅNDBOGEN I SOFTWAREKONSTRUKTION</title>
     <link rel="stylesheet" href="styles.css">
+    <!-- Apply saved theme immediately to prevent flash of wrong theme -->
+    <script>
+        (function() {
+            var t = localStorage.getItem('mara-theme') ||
+                    (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', t);
+        })();
+    </script>
     <!-- highlight.js theme (switchable) -->
     <link id="hljsTheme" rel="stylesheet" href="vendor/highlightjs/github.min.css">
 </head>
@@ -21,97 +29,54 @@
 
         <div class="content-grid">
             <aside id="sidebar" class="sidebar" aria-label="Sidebar navigation">
-                <nav class="nav-menu">
-                    <a class="nav-link" href="index.html" data-page="home">Hjem</a>
-
-                    <div class="nav-group">
-                        <button class="moreToggle nav-parent" type="button" aria-expanded="false">
-                            S2: Application Programming
-                            <span class="chevron" aria-hidden="true">+</span>
-                        </button>
-                        <div class="sub-nav" hidden>
-                            <a class="nav-link sub-link" href="pages/page4.html" data-page="page4">Page 4</a>
-                            <a class="nav-link sub-link" href="pages/page5.html" data-page="page5">Page 5</a>
-                            <a class="nav-link sub-link" href="pages/page6.html" data-page="page6">Page 6</a>
-                        </div>
-                    </div>
-
-                    <div class="nav-group">
-                        <button class="moreToggle nav-parent" type="button" aria-expanded="false">
-                            S3: Software Construction
-                            <span class="chevron" aria-hidden="true">+</span>
-                        </button>
-                        <div class="sub-nav" hidden>
-                            <a class="nav-link sub-link" href="pages/page4.html" data-page="page4">Page 4</a>
-                            <a class="nav-link sub-link" href="pages/page5.html" data-page="page5">Page 5</a>
-                            <a class="nav-link sub-link" href="pages/page6.html" data-page="page6">Page 6</a>
-                        </div>
-                    </div>
-
-                    <div class="nav-group">
-                        <button class="moreToggle nav-parent" type="button" aria-expanded="false">
-                            S4.1: Distributed Systems
-                            <span class="chevron" aria-hidden="true">+</span>
-                        </button>
-                        <div class="sub-nav" hidden>
-                            <a class="nav-link sub-link" href="pages/page4.html" data-page="page4">Page 4</a>
-                            <a class="nav-link sub-link" href="pages/page5.html" data-page="page5">Page 5</a>
-                            <a class="nav-link sub-link" href="pages/page6.html" data-page="page6">Page 6</a>
-                        </div>
-                    </div>
-
-                    <div class="nav-group">
-                        <button class="moreToggle nav-parent" type="button" aria-expanded="false">
-                            S4.2: Algorithms & Data Structures
-                            <span class="chevron" aria-hidden="true">+</span>
-                        </button>
-                        <div class="sub-nav" hidden>
-                            <a class="nav-link sub-link" href="pages/page4.html" data-page="page4">Page 4</a>
-                            <a class="nav-link sub-link" href="pages/page5.html" data-page="page5">Page 5</a>
-                            <a class="nav-link sub-link" href="pages/page6.html" data-page="page6">Page 6</a>
-                        </div>
-                    </div>
-                    
-                </nav>
             </aside>
 
             <main class="main-panel">
                 <button id="sidebarToggle" class="sidebar-toggle" type="button" aria-label="Collapse sidebar">&lt;</button>
-                <section class="content-card">
-                    <h2 class="site-h2">Welcome to MARA</h2>
-                    <p>
-                        This is a simple desktop starter layout with a centered page title, theme switch,
-                        collapsible sidebar navigation, and placeholder pages.
-                    </p>
-                    <p>
-                        Use the links in the sidebar to explore placeholder content and test the nested
-                        expandable navigation section.
-                    </p>
-                    <!-- Embedded C# snippet (loaded from pages/code.html) -->
-                    <div class="code-embed" data-src="pages/code.html" aria-live="polite"></div>
-                    
-                    <h2 class="site-h2">More stuff 1</h2>
-                    <p>
-                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                    </p>
+                <div class="main-panel-inner">
+                    <section class="content-card">
+                        <h2 class="site-h2">Welcome to MARA</h2>
+                        <p>
+                            This is a simple desktop starter layout with a centered page title, theme switch,
+                            collapsible sidebar navigation, and placeholder pages.
+                        </p>
+                        <p>
+                            Use the links in the sidebar to explore placeholder content and test the nested
+                            expandable navigation section.
+                        </p>
+                        <!-- Embedded C# snippet (loaded from pages/code.html) -->
+                        <div class="code-embed" data-src="pages/code.html" aria-live="polite"></div>
+                        
+                        <h2 class="site-h2">More stuff 1</h2>
+                        <p>
+                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                        </p>
 
-                    <h2 class="site-h2">More stuff 2</h2>
-                    <p>
+                        <h2 class="site-h2">More stuff 2</h2>
+                        <p>
+                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
                         Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                    </p>
+                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                        </p>
 
-                    <h2 class="site-h2">More stuff 3</h2>
-                    <p>
-                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                    </p>
-                </section>
+                        <h2 class="site-h2">More stuff 3</h2>
+                        <p>
+                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                        </p>
+                    </section>
+
+                    <!-- Table of contents (sticky, generated by script.js) -->
+                    <nav id="floatingToc" class="floating-toc" aria-label="Page table of contents" hidden>
+                        <button id="tocToggle" class="toc-toggle" aria-expanded="true" aria-controls="tocList">Contents</button>
+                        <div id="tocInner" class="toc-inner">
+                            <div id="tocList" class="toc-list" role="navigation"></div>
+                        </div>
+                    </nav>
+                </div>
             </main>
 
-            <!-- Floating table of contents (generated) -->
-            <!-- moved to document root to avoid being clipped by .site-shell overflow -->
+            <!-- Floating table of contents is now inside .main-panel-inner -->
         </div>
 
         <footer class="site-footer">
@@ -122,14 +87,6 @@
     <!-- highlight.js (local copy for prod) -->
     <script src="vendor/highlightjs/highlight.min.js"></script>
     <script>hljs.highlightAll();</script>
-
-    <!-- Floating table of contents (generated) -->
-    <nav id="floatingToc" class="floating-toc" aria-label="Page table of contents" hidden>
-        <button id="tocToggle" class="toc-toggle" aria-expanded="true" aria-controls="tocList">Contents</button>
-        <div id="tocInner" class="toc-inner">
-            <div id="tocList" class="toc-list" role="navigation"></div>
-        </div>
-    </nav>
 
     <script src="script.js"></script>
 </body>

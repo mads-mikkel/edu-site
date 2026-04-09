@@ -12,7 +12,8 @@
 	--shadow: 0 20px 45px rgba(42, 36, 31, 0.12);
 }
 
-body[data-theme='dark'] {
+body[data-theme='dark'],
+html[data-theme='dark'] {
 	--bg: #151a1f;
 	--surface: #1f262d;
 	--surface-2: #29323b;
@@ -49,7 +50,6 @@ body {
 	margin: 24px auto;
 	border: 1px solid var(--line);
 	border-radius: 18px;
-	overflow: hidden;
 	background: var(--surface);
 	box-shadow: var(--shadow);
 }
@@ -62,6 +62,7 @@ body {
 	align-items: center;
 	padding: 0 22px;
 	background: linear-gradient(180deg, rgba(255, 255, 255, 0.45), transparent);
+	border-radius: 18px 18px 0 0;
 }
 
 .home-link {
@@ -169,8 +170,17 @@ body {
 .nav-link.active {
 	background: rgba(31, 122, 90, 0.16);
 	border-color: rgba(31, 122, 90, 0.28);
+	border-left: 3px solid var(--accent);
 	color: var(--accent-2);
 	font-weight: 700;
+}
+
+body[data-theme='dark'] .nav-link.active,
+html[data-theme='dark'] .nav-link.active {
+	background: rgba(109, 211, 170, 0.12);
+	border-color: rgba(109, 211, 170, 0.24);
+	border-left: 3px solid var(--accent);
+	color: var(--accent);
 }
 
 .nav-parent {
@@ -206,6 +216,13 @@ body {
 	padding: 26px 28px;
 }
 
+/* Flex wrapper: content-card on left, TOC on right */
+.main-panel-inner {
+	display: flex;
+	gap: 24px;
+	align-items: flex-start;
+}
+
 .sidebar-toggle {
 	position: absolute;
 	left: -15px;
@@ -221,6 +238,8 @@ body {
 }
 
 .content-card {
+	flex: 1;
+	min-width: 0;
 	max-width: 760px;
 	padding: 30px 34px;
 	border-radius: 16px;
@@ -316,6 +335,7 @@ body[data-theme='dark'] .content-card pre {
 	padding: 10px 18px;
 	display: flex;
 	justify-content: flex-end;
+	border-radius: 0 0 18px 18px;
 }
 
 .site-footer p {
@@ -351,28 +371,28 @@ body[data-theme='dark'] .content-card pre {
 	}
 }
 
-/* Floating Table of Contents */
+/* Floating Table of Contents — sticky inside .main-panel-inner */
 .floating-toc {
-	position: fixed;
-	/* 'right' is set dynamically by JS to align with .site-shell */
-	top: 120px;
-	width: 220px;
+	position: sticky;
+	top: 24px;
+	flex-shrink: 0;
+	width: 200px;
 	max-height: calc(100vh - 160px);
+	overflow-y: auto;
 	background: var(--surface);
 	color: var(--text);
 	border-radius: 10px;
-	box-shadow: var(--shadow);
+	border: 1px solid var(--line);
 	padding: 8px;
-	z-index: 60;
 	display: flex;
 	flex-direction: column;
-	transition: opacity .18s ease;
+	font-size: 0.9rem;
 }
 
 .floating-toc[hidden] { display: none; }
 
 .floating-toc .toc-toggle {
-	background: var(--surface);
+	background: transparent;
 	border: 1px solid var(--line);
 	border-radius: 8px;
 	padding: 6px 10px;
@@ -417,14 +437,15 @@ body[data-theme='dark'] .content-card pre {
 	box-shadow: inset 0 0 0 1px rgba(31,122,90,0.04);
 }
 
-/* Hide on small screens */
+/* Hide TOC column on narrow screens — content card takes full width */
 @media (max-width: 1000px) {
 	.floating-toc { display: none; }
+	.main-panel-inner { flex-direction: column; }
 }
 
 /* Ensure contrast in dark mode */
 body[data-theme='dark'] .floating-toc {
 	background: var(--surface-2);
 	color: var(--text);
-	border: 1px solid rgba(255,255,255,0.03);
+	border-color: var(--line);
 }
