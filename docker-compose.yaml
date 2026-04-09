@@ -1,0 +1,7 @@
+services:
+  edu-site:
+    image: 3kant-server.cv.local:1103/mara/edu-site:latest
+    container_name: mara-edu-container
+    ports:
+      - "1104:80"
+    restart: unless-stopped
