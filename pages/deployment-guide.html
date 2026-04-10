@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deployment Guide | HÅNDBOGEN I SOFTWAREKONSTRUKTION</title>
+    <link rel="stylesheet" href="../styles.css">
+    <script>
+        (function() {
+            var t = localStorage.getItem('mara-theme') ||
+                    (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', t);
+        })();
+    </script>
+    <link id="hljsTheme" rel="stylesheet" href="../vendor/highlightjs/github.min.css">
+</head>
+<body data-page="deployment-guide">
+    <div class="site-shell">
+        <header class="site-header">
+            <a class="home-link" href="../index.html" aria-label="Go to homepage">&#8962;</a>
+            <h1 class="site-title">HÅNDBOGEN I SOFTWAREKONSTRUKTION</h1>
+            <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle dark or light mode">
+                <span id="themeIcon" aria-hidden="true">&#9790;</span>
+                <span id="themeLabel">Dark</span>
+            </button>
+        </header>
+
+        <div class="content-grid">
+            <aside id="sidebar" class="sidebar" aria-label="Sidebar navigation">
+            </aside>
+
+            <main class="main-panel">
+                <button id="sidebarToggle" class="sidebar-toggle" type="button" aria-label="Collapse sidebar">&lt;</button>
+                <div class="main-panel-inner">
+                    <section class="content-card">
+
+                        <h2 class="site-h2">Deployment Guide</h2>
+                        <p>
+                            This guide walks you through every step needed to get your site running on the school server
+                            (<code>3kant-server</code>) using Gitea, Docker, and Gitea Actions.
+                        </p>
+                        <p>
+                            <strong>End result:</strong> every time you push code to your <code>main</code> branch, the server
+                            automatically builds a new Docker image of your site, pushes it to the school's container registry,
+                            and restarts your container — so your live site updates automatically.
+                        </p>
+
+                        <h2 class="site-h2">Prerequisites</h2>
+                        <ul>
+                            <li>A Gitea account on <code>http://3kant-server.cv.local:1103/</code></li>
+                            <li>A repo on that Gitea instance containing your site files, a <code>dockerfile</code>, a <code>docker-compose.yaml</code>, and a <code>.gitea/workflows/deploy.yml</code></li>
+                            <li>Your site must have at least an <code>index.html</code></li>
+                        </ul>
+
+                        <h2 class="site-h2">Overview of the Pipeline</h2>
+                        <pre><code class="language-plaintext">You push to main
+       │
+       ▼
+Gitea Actions runner picks up the workflow
+       │
+       ├─► Builds a Docker image of your site
+       │
+       ├─► Pushes the image to the school's container registry
+       │         (3kant-server.cv.local:1103)
+       │
+       └─► Runs docker compose up → your site is live on your port</code></pre>
+
+                        <h2 class="site-h2">Step 1 — Create or Fork the Repo in Gitea</h2>
+                        <ol>
+                            <li>Open <code>http://3kant-server.cv.local:1103/</code> and log in.</li>
+                            <li>
+                                Either:
+                                <ul>
+                                    <li><strong>Fork</strong> an existing repo (e.g. <code>mara/edu-site</code>): click the <strong>Fork</strong> button on the repo page, or</li>
+                                    <li><strong>Create a new repo</strong>: click the <strong>+</strong> icon → <em>New Repository</em>. Give it a name (e.g. <code>my-website</code>) and click <em>Create Repository</em>.</li>
+                                </ul>
+                            </li>
+                            <li>If you created a new repo, clone it to your machine and add your site files.</li>
+                        </ol>
+
+                        <h2 class="site-h2">Step 2 — Add the Required Files</h2>
+                        <p>
+                            Your repo needs three infrastructure files. If you forked <code>mara/edu-site</code> they are
+                            already there — but you <strong>must</strong> edit them as described in Steps 3 and 4.
+                        </p>
+
+                        <h3>dockerfile</h3>
+                        <p>No changes needed. This packages your site into an nginx image.</p>
+                        <pre><code class="language-dockerfile">FROM nginx:latest
+
+COPY . /usr/share/nginx/html
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]</code></pre>
+
+                        <h3>docker-compose.yaml</h3>
+                        <p>Tells Docker how to run your container on the server. <strong>You must customize this — see Step 3.</strong></p>
+
+                        <h3>.gitea/workflows/deploy.yml</h3>
+                        <p>Defines the automated pipeline. <strong>You must customize this — see Step 4.</strong></p>
+
+                        <h2 class="site-h2">Step 3 — Customize docker-compose.yaml</h2>
+                        <p>Open <code>docker-compose.yaml</code>. It looks like this:</p>
+                        <pre><code class="language-yaml">services:
+  edu-site:
+    image: 3kant-server.cv.local:1103/mara/edu-site:latest
+    container_name: mara-edu-container
+    ports:
+      - "1104:80"
+    restart: unless-stopped</code></pre>
+
+                        <p>Change <strong>three things</strong> so your container does not clash with anyone else's:</p>
+                        <table class="guide-table">
+                            <thead>
+                                <tr>
+                                    <th>Field</th>
+                                    <th>What to change</th>
+                                    <th>Example</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>image</code></td>
+                                    <td>Replace <code>mara/edu-site</code> with your <strong>Gitea username</strong> and your <strong>repo name</strong></td>
+                                    <td><code>3kant-server.cv.local:1103/anna/my-website:latest</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>container_name</code></td>
+                                    <td>Use your own unique name</td>
+                                    <td><code>anna-my-website-container</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>ports</code></td>
+                                    <td>Replace <code>1104</code> with the port number assigned to you</td>
+                                    <td><code>"2050:80"</code></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <p>The port on the <strong>left</strong> of the <code>:</code> is the public port your site will be reachable on. The <code>80</code> on the right must stay as-is — that is nginx's internal port.</p>
+
+                        <p><strong>Example after editing:</strong></p>
+                        <pre><code class="language-yaml">services:
+  my-website:
+    image: 3kant-server.cv.local:1103/anna/my-website:latest
+    container_name: anna-my-website-container
+    ports:
+      - "2050:80"
+    restart: unless-stopped</code></pre>
+
+                        <h2 class="site-h2">Step 4 — Customize .gitea/workflows/deploy.yml</h2>
+                        <p>Open <code>.gitea/workflows/deploy.yml</code>. It looks like this:</p>
+                        <pre><code class="language-yaml">name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Log in to Gitea container registry
+        uses: docker/login-action@v3
+        with:
+          registry: 3kant-server.cv.local:1103
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./dockerfile
+          push: true
+          tags: 3kant-server.cv.local:1103/mara/edu-site:latest
+
+      - name: Deploy — pull new image and restart container
+        run: |
+          docker compose pull
+          docker compose up -d</code></pre>
+
+                        <p>
+                            Change <strong>one line</strong> — the <code>tags:</code> value under <em>Build and push Docker image</em>.
+                            Set it to match the <code>image:</code> value you used in <code>docker-compose.yaml</code>:
+                        </p>
+                        <pre><code class="language-yaml">          tags: 3kant-server.cv.local:1103/anna/my-website:latest</code></pre>
+
+                        <p>
+                            ⚠️ <strong>Important:</strong> the <code>tags:</code> value in the workflow and the <code>image:</code>
+                            value in <code>docker-compose.yaml</code> must be <strong>identical</strong>. If they differ, the runner
+                            will push the image under one name but try to run a different one.
+                        </p>
+
+                        <h2 class="site-h2">Step 5 — Add Secrets to Your Gitea Repo</h2>
+                        <p>
+                            Your workflow needs your Gitea credentials to push to the registry. You store them as
+                            <em>secrets</em> — encrypted values that Actions can read but that are never visible in logs or code.
+                        </p>
+                        <ol>
+                            <li>In your repo on Gitea, click <strong>Settings</strong> (top-right of the repo page).</li>
+                            <li>In the left sidebar, click <strong>Actions</strong> → <strong>Secrets</strong>.</li>
+                            <li>Click <strong>Add Secret</strong> and add the following two secrets:</li>
+                        </ol>
+                        <table class="guide-table">
+                            <thead>
+                                <tr>
+                                    <th>Secret name</th>
+                                    <th>Value</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>REGISTRY_USERNAME</code></td>
+                                    <td>Your Gitea username (e.g. <code>anna</code>)</td>
+                                </tr>
+                                <tr>
+                                    <td><code>REGISTRY_PASSWORD</code></td>
+                                    <td>Your Gitea password</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p>After adding both, the secrets page should list both names. The values are hidden — that is expected.</p>
+                        <p>⚠️ <strong>Never put your password directly in the workflow file.</strong> Always use secrets.</p>
+
+                        <h2 class="site-h2">Step 6 — Push to Main and Watch It Deploy</h2>
+                        <ol>
+                            <li>Commit and push all your changes (the updated <code>docker-compose.yaml</code>, <code>.gitea/workflows/deploy.yml</code>, and your site files) to the <code>main</code> branch.</li>
+                            <li>In your repo on Gitea, click the <strong>Actions</strong> tab. A workflow run should appear within a few seconds.</li>
+                            <li>
+                                Click on the run to expand it and watch the steps execute:
+                                <ul>
+                                    <li><strong>Checkout code</strong> — the runner fetches your repo</li>
+                                    <li><strong>Log in to Gitea container registry</strong> — authenticates using your secrets</li>
+                                    <li><strong>Build and push Docker image</strong> — builds the nginx image and pushes it to the registry</li>
+                                    <li><strong>Deploy</strong> — pulls the new image and starts your container</li>
+                                </ul>
+                            </li>
+                        </ol>
+                        <p>A green ✔ next to every step means success.</p>
+
+                        <h2 class="site-h2">Step 7 — Verify Your Site is Live</h2>
+                        <p>Open a browser and go to:</p>
+                        <pre><code class="language-plaintext">http://3kant-server.cv.local:&lt;your-port&gt;/</code></pre>
+                        <p>
+                            Replace <code>&lt;your-port&gt;</code> with the port you chose in Step 3
+                            (e.g. <code>http://3kant-server.cv.local:2050/</code>).
+                        </p>
+                        <p>You should see your <code>index.html</code>. 🎉</p>
+                        <p>From now on, <strong>every push to <code>main</code> triggers an automatic redeploy</strong> — no manual steps needed.</p>
+
+                        <h2 class="site-h2">How Subsequent Deploys Work</h2>
+                        <p>After the first deploy, the server is already running your container. When you push again:</p>
+                        <ol>
+                            <li>The runner builds a <strong>new</strong> Docker image with your latest code.</li>
+                            <li>It pushes the new image to the registry, overwriting <code>:latest</code>.</li>
+                            <li><code>docker compose pull</code> downloads the new image to the server.</li>
+                            <li><code>docker compose up -d</code> recreates the container using the new image — automatically.</li>
+                        </ol>
+
+                        <h2 class="site-h2">Troubleshooting</h2>
+
+                        <h3>No workflow run appears after pushing</h3>
+                        <ul>
+                            <li>Make sure your workflow file is saved at exactly <code>.gitea/workflows/deploy.yml</code> (the <code>.gitea</code> folder must be at the root of the repo).</li>
+                            <li>Check that you pushed to the <code>main</code> branch, not <code>master</code> or another branch.</li>
+                        </ul>
+
+                        <h3>"Log in to Gitea container registry" fails</h3>
+                        <ul>
+                            <li>Double-check that both secrets are set in <strong>Settings → Actions → Secrets</strong> of <em>your</em> repo.</li>
+                            <li>Make sure the username and password match your Gitea login exactly (case-sensitive).</li>
+                        </ul>
+
+                        <h3>"Build and push Docker image" fails with <code>denied</code> or <code>unauthorized</code></h3>
+                        <ul>
+                            <li>The <code>tags:</code> value must start with <em>your own</em> Gitea username. You cannot push to another user's namespace.</li>
+                        </ul>
+
+                        <h3>"Deploy" fails with <code>port is already allocated</code></h3>
+                        <ul>
+                            <li>The port you chose is already used by another container. Pick a different port, update <code>docker-compose.yaml</code>, and push again.</li>
+                        </ul>
+
+                        <h3>The site shows nginx's default page instead of my content</h3>
+                        <ul>
+                            <li>Make sure <code>index.html</code> is in the <strong>root</strong> of your repo, not inside a subfolder. The <code>dockerfile</code> copies everything to <code>/usr/share/nginx/html</code> and nginx looks for <code>index.html</code> there.</li>
+                        </ul>
+
+                        <h3>I visit my port but get "connection refused"</h3>
+                        <ul>
+                            <li>The container may have exited after starting. Check the log of the <em>Deploy</em> step in your workflow run for error output from Docker.</li>
+                        </ul>
+
+                    </section>
+
+                    <nav id="floatingToc" class="floating-toc" aria-label="Page table of contents" hidden>
+                        <button id="tocToggle" class="toc-toggle" aria-expanded="true" aria-controls="tocList">Contents</button>
+                        <div id="tocInner" class="toc-inner">
+                            <div id="tocList" class="toc-list" role="navigation"></div>
+                        </div>
+                    </nav>
+                </div>
+            </main>
+        </div>
+
+        <footer class="site-footer">
+            <p>Created by: KESO</p>
+        </footer>
+    </div>
+
+    <script src="../vendor/highlightjs/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <script src="../script.js"></script>
+</body>
+</html>

@@ -443,6 +443,34 @@ body[data-theme='dark'] .content-card pre {
 	.main-panel-inner { flex-direction: column; }
 }
 
+/* Tables used in guide pages */
+.guide-table {
+	width: 100%;
+	border-collapse: collapse;
+	margin: 16px 0;
+	font-size: 0.93rem;
+}
+
+.guide-table th,
+.guide-table td {
+	text-align: left;
+	padding: 10px 14px;
+	border: 1px solid var(--line);
+}
+
+.guide-table thead th {
+	background: var(--surface-2);
+	font-weight: 600;
+}
+
+.guide-table tbody tr:nth-child(even) {
+	background: rgba(0, 0, 0, 0.02);
+}
+
+body[data-theme='dark'] .guide-table tbody tr:nth-child(even) {
+	background: rgba(255, 255, 255, 0.03);
+}
+
 /* Ensure contrast in dark mode */
 body[data-theme='dark'] .floating-toc {
 	background: var(--surface-2);
