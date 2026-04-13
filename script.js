@@ -1,9 +1,8 @@
 const body = document.body;
 const contentGrid = document.querySelector('.content-grid');
 const sidebarToggle = document.getElementById('sidebarToggle');
-const themeToggle = document.getElementById('themeToggle');
-const themeIcon = document.getElementById('themeIcon');
-const themeLabel = document.getElementById('themeLabel');
+// themeToggle, themeIcon, themeLabel live inside the header component
+// and are looked up dynamically after the header embed loads.
 // note: nav groups use class-based toggles (.moreToggle and .sub-nav)
 
 const THEME_KEY = 'mara-theme';
@@ -31,6 +30,9 @@ function setTheme(theme) {
 			: _rootPath + 'vendor/highlightjs/github.min.css';
 	}
 
+	// Look up dynamically — these live inside the header component
+	const themeIcon = document.getElementById('themeIcon');
+	const themeLabel = document.getElementById('themeLabel');
 	if (themeIcon && themeLabel) {
 		if (theme === 'dark') {
 			themeIcon.innerHTML = '&#9728;';
@@ -84,12 +86,16 @@ if (sidebarToggle && contentGrid) {
 	});
 }
 
-if (themeToggle) {
-	themeToggle.addEventListener('click', () => {
-		const nextTheme = body.dataset.theme === 'dark' ? 'light' : 'dark';
-		setTheme(nextTheme);
-		localStorage.setItem(THEME_KEY, nextTheme);
-	});
+// Bind theme toggle — called after embeds load so the header component is in the DOM
+function initThemeToggle() {
+	const themeToggle = document.getElementById('themeToggle');
+	if (themeToggle) {
+		themeToggle.addEventListener('click', () => {
+			const nextTheme = body.dataset.theme === 'dark' ? 'light' : 'dark';
+			setTheme(nextTheme);
+			localStorage.setItem(THEME_KEY, nextTheme);
+		});
+	}
 }
 
 // Attach handlers to all group toggles (class="moreToggle")
@@ -200,6 +206,11 @@ async function loadEmbed(el) {
 		const text = await res.text();
 		el.innerHTML = text;
 
+		// Rewrite root-relative links inside injected fragments when on a sub-page.
+		// Components use root-absolute paths (e.g. /index.html, /pages/oop.html).
+		// Live Server serves from the workspace root so absolute paths just work.
+		// No further rewriting needed for root-absolute (slash-prefixed) hrefs.
+
 		// highlight any code blocks inserted
 		el.querySelectorAll('pre code').forEach((block) => {
 			try { hljs.highlightElement(block); } catch (e) { /* highlight.js may not be available */ }
@@ -224,6 +235,12 @@ async function loadEmbeds() {
 	// Start all loads in parallel and wait for them to finish so we can build the TOC afterwards
 	const promises = embeds.map(el => loadEmbed(el));
 	await Promise.all(promises);
+
+	// Now that the header component is in the DOM, bind its controls
+	initThemeToggle();
+	// Re-apply the current theme so the toggle icon/label reflect the correct state
+	setTheme(body.dataset.theme || localStorage.getItem(THEME_KEY) || 'light');
+
 	// After embeds are loaded, build/rebuild the floating TOC
 	try { buildFloatingToc(); } catch (e) { /* ignore if builder missing */ }
 }

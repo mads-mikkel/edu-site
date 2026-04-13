@@ -477,3 +477,32 @@ body[data-theme='dark'] .floating-toc {
 	color: var(--text);
 	border-color: var(--line);
 }
+
+/* ─── Callout components ─── */
+.callout {
+	padding: 1rem 1.25rem;
+	margin: 1.5rem 0;
+	border-radius: 6px;
+	border-left: 4px solid var(--accent);
+	background: var(--surface-2);
+	color: var(--text);
+	font-size: 0.97rem;
+	line-height: 1.55;
+}
+
+.callout strong {
+	display: inline;
+	margin-right: 0.3em;
+}
+
+.callout-note {
+	border-left-color: var(--accent);
+}
+
+.callout-warning {
+	border-left-color: #d4a017;
+}
+
+.callout-tip {
+	border-left-color: #3b82f6;
+}
