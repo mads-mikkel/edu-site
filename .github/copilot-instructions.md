@@ -34,7 +34,7 @@ Every page (including `index.html`) follows the same structure:
 - `<body data-page="<slug>">` — the slug must match the `data-page` attribute on the corresponding `<a>` in `components/sidebar.html` for active-link highlighting to work.
 - Pages in `pages/` reference assets with `../` prefix (`../styles.css`, `../script.js`, `../vendor/…`).
 - The inline `<script>` in `<head>` applies the saved theme immediately to prevent flash-of-wrong-theme — it must appear before the hljs stylesheet link.
-- The floating TOC (`#floatingToc`) and sidebar `<aside id="sidebar">` are always present as empty shells; `script.js` populates them at runtime.
+- The floating TOC and sidebar `<aside id="sidebar">` are always present as empty shells; `script.js` populates them at runtime.
 
 ## Sidebar Navigation
 
