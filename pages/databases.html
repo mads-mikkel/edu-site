@@ -27,9 +27,75 @@
                 <button id="sidebarToggle" class="sidebar-toggle" type="button" aria-label="Collapse sidebar">&lt;</button>
                 <div class="main-panel-inner">
                     <section class="content-card">
-                        <h2 class="site-h2">Page 1</h2>
-                        <p>This is placeholder content for Page 1.</p>
-                        <p>Add your real text, images, or modules here when you are ready.</p>
+                        <h1>Databaser</h2>
+                        <p>Her skal du lære om databaser. Du kommer til at stifte bekendtskab med et nyt programmeringssprog, som hedder SQL. Du skal også lære at anvende et nyt værktøj, nemlig et program der hedder SQL Server Managament Studio.</p>
+                        <p>Fomålet er, at du lærer hvordan databaser er opbygget og fungerer.</p>
+                        <p>Målet er, at du lærer hvordan man bruger databaser fra programmer du selv har lavet.</p>
+                        <br>
+                        <h2 class="site-h2">Indhold</h2>
+                        <ol>
+                            <li>Introduktion til databaser</li>
+                            <li>SQL opgaver</li>
+                            <ol>
+                                <li>SELECT</li>
+                                <li>INSERT</li>
+                            </ol>
+                        </ol>
+                        <br>
+
+                        <!-- INTRODUKTION -->
+                        <h2 class="site-h2">Hvad er databaser?</h2>
+                        <!-- Hvorfor har vi databaser? En database er faktisk bare en .mdf fil. En database server sørger for at hoste databaser. En databaser server er faktisk bare et program, der kan køre på din egen maskine, eller en anden maskine på netværket. -->
+                         <p>I softwareudvikling er databasen fundamentet for datalagring. Formålet med en database er at skabe en struktureret og holdbar ramme omkring data, så de kan læses, skrives og opdateres med høj præcision og sikkerhed. I modsætning til simple tekstfiler sikrer databasen dataintegritet, så informationerne ikke bliver korrupte eller går tabt.</p>
+
+<p><strong>Filformatet (.mdf)</strong>
+
+
+Rent teknisk består en SQL-database af rå data gemt i en fil – i Microsoft SQL Server-regi er dette typisk en <b>.mdf-fil</b> (Master Data File). Denne fil indeholder selve tabellerne, indekserne og de lagrede data, der udgør systemets hukommelse.</p>
+
+<p><strong>Database-serveren som proces</strong>
+
+
+Selvom dataene ligger i en fil, tilgår man dem aldrig direkte. Man arbejder altid gennem en <b>database-server</b>. En database-server er en baggrundsproces (et program), der administrerer adgangen til .mdf-filen. Den håndterer de komplekse opgaver som transaktionsstyring, rettighedskontrol og optimering af forespørgsler.</p>
+Som IT-håndværker skal du vide, hvor din database-server befinder sig, da det afgør, hvordan du rækker ud efter dine data. Der er to typiske scenarier:</p>
+
+<ul>
+<li><strong>På din egen computer:</strong> Mens du bygger og tester dit program, kører database-serveren som regel direkte på din egen maskine. Det svarer til at have dit værktøj liggende lige ved hånden på din egen arbejdsbænk. Det er hurtigt, og du behøver ikke adgang til internettet for at arbejde.</li>
+<li><strong>På en anden maskine (Netværk):</strong> Når programmet skal bruges af andre, flyttes databasen ofte til en anden maskine i et netværk eller i "skyen". Det svarer til at have et centralt lager, som alle på værkstedet kan hente dele fra. Her skal dit program vide præcis, hvilken adresse på netværket serveren bor på for at kunne få fat i dataene.</li>
+</ul>
+
+<p>Uanset om serveren kører lokalt eller på netværket, er din opgave den samme: Du skal fortælle dit program, hvilken "adresse" det skal sende sine SQL-forespørgsler til.</p>
+<p>Ved at adskille selve datafilen fra server-logikken opnår vi et system, der er skalerbart og som kan håndtere mange samtidige forbindelser fra de programmer, du bygger.</p>
+<p>Men inden du overhovedet når så langt som, at få dit program til at kommunikere med database serveren, skal du lære  hvordan en database er opbygget og hvordan man bruger SQL sproget.</p>
+<h2 class="site-h2">SQL – Sproget til datahåndtering</h2>
+
+<p>For at kunne kommunikere med en database-server har vi brug for et værktøj. Det værktøj er sproget <strong>SQL</strong> (Structured Query Language). SQL er industristandarden, når man skal tale med en database, uanset hvilket programmeringssprog man ellers arbejder i.</p>
+
+<p>Som håndværker bruger du SQL til to overordnede opgaver: at styre selve <strong>strukturen</strong> (bygge kasserne) og at håndtere <strong>indholdet</strong> (lægge ting i kasserne og tage dem ud igen).</p>
+
+<p><strong>Arbejde med data (Forespørgsler)</strong>
+
+
+Det meste af tiden skal du bruge SQL til at flytte data frem og tilbage. Du kommer til at lære de fire grundlæggende kommandoer, som man ofte kalder CRUD:</p>
+<ul>
+<li><strong>SELECT:</strong> Bruges til at læse og udtrække specifikke data fra en tabel.</li>
+<li><strong>INSERT:</strong> Bruges til at indsætte nye rækker af data.</li>
+<li><strong>UPDATE:</strong> Bruges til at rette i eksisterende data, der allerede er gemt.</li>
+<li><strong>DELETE:</strong> Bruges til at fjerne data permanent.</li>
+<li><strong>JOIN:</strong> Dette er en af de vigtigste funktioner. Den bruges til at koble data sammen fra forskellige tabeller, så du kan se sammenhænge.</li>
+</ul>
+
+<p><strong>Arbejde med strukturen (Tabeller og relationer)</strong>
+
+
+Før du kan gemme data, skal du bygge fundamentet. Det gør du ved at oprette tabeller:</p>
+<ul>
+<li><strong>CREATE TABLE:</strong> Her definerer du, hvilke kolonner en tabel skal have, og hvilken type data (f.eks. tal eller tekst) de må indeholde.</li>
+<li><strong>Fremmednøgler (Foreign Keys):</strong> For at undgå rod og dobbeltarbejde lærer du at relatere tabeller til hinanden. En fremmednøgle er det "hængsel", der binder en række i én tabel sammen med en række i en anden tabel – for eksempel at koble en ordre sammen med en specifik kunde.</li>
+</ul>
+
+<p>Når du mestrer disse kommandoer, har du fuld kontrol over dit data-værktøj og kan bygge professionelle systemer, der er både hurtige og logisk opbyggede.</p>
+<p></p>
                     </section>
 
                     <nav id="floatingToc" class="floating-toc" aria-label="Page table of contents" hidden>
